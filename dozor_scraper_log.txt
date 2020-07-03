@@ -1,0 +1,308 @@
+C:\Users\Mykola\AppData\Local\Programs\Python\Python37\python.exe D:/.Python_progs/OpenDataCampusIF/dozor_scraper.py
+
+Retrieving data for route 21...
+https://city.dozor.tech/data?t=2&p=918
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 21
+
+Retrieving data for route 22...
+https://city.dozor.tech/data?t=2&p=843
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 22
+
+Retrieving data for route 23...
+https://city.dozor.tech/data?t=2&p=919
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 23
+
+Retrieving data for route 24...
+https://city.dozor.tech/data?t=2&p=920
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 24
+
+Retrieving data for route 25...
+https://city.dozor.tech/data?t=2&p=921
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 25
+
+Retrieving data for route 26...
+https://city.dozor.tech/data?t=2&p=936
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 26
+
+Retrieving data for route 26А...
+https://city.dozor.tech/data?t=2&p=922
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 26А
+
+Retrieving data for route 27...
+https://city.dozor.tech/data?t=2&p=1554
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 27
+
+Retrieving data for route 28...
+https://city.dozor.tech/data?t=2&p=849
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 28
+
+Retrieving data for route 29...
+https://city.dozor.tech/data?t=2&p=929
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 29
+
+Retrieving data for route 30...
+https://city.dozor.tech/data?t=2&p=924
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 30
+
+Retrieving data for route 31...
+https://city.dozor.tech/data?t=2&p=934
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 31
+
+Retrieving data for route 32...
+https://city.dozor.tech/data?t=2&p=861
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 32
+
+Retrieving data for route 33...
+https://city.dozor.tech/data?t=2&p=937
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 33
+
+Retrieving data for route 34...
+https://city.dozor.tech/data?t=2&p=847
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 34
+
+Retrieving data for route 35...
+https://city.dozor.tech/data?t=2&p=932
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 35
+
+Retrieving data for route 36...
+https://city.dozor.tech/data?t=2&p=930
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 36
+
+Retrieving data for route 37...
+https://city.dozor.tech/data?t=2&p=856
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 37
+
+Retrieving data for route 38...
+https://city.dozor.tech/data?t=2&p=942
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 38
+
+Retrieving data for route 39...
+https://city.dozor.tech/data?t=2&p=935
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 39
+
+Retrieving data for route 40...
+https://city.dozor.tech/data?t=2&p=938
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 40
+
+Retrieving data for route 40К...
+https://city.dozor.tech/data?t=2&p=1711
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 40К
+
+Retrieving data for route 41К...
+https://city.dozor.tech/data?t=2&p=1608
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 41К
+
+Retrieving data for route 42...
+https://city.dozor.tech/data?t=2&p=848
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 42
+
+Retrieving data for route 43...
+https://city.dozor.tech/data?t=2&p=943
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 43
+
+Retrieving data for route 44...
+https://city.dozor.tech/data?t=2&p=939
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 44
+
+Retrieving data for route 45...
+https://city.dozor.tech/data?t=2&p=1794
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 45
+
+Retrieving data for route 48...
+https://city.dozor.tech/data?t=2&p=945
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 48
+
+Retrieving data for route 49...
+https://city.dozor.tech/data?t=2&p=946
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 49
+
+Retrieving data for route 53...
+https://city.dozor.tech/data?t=2&p=2186
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 53
+
+Retrieving data for route 54...
+https://city.dozor.tech/data?t=2&p=2187
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 54
+
+Retrieving data for route 55...
+https://city.dozor.tech/data?t=2&p=1660
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 55
+
+Retrieving data for route 56...
+https://city.dozor.tech/data?t=2&p=2181
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 56
+
+Retrieving data for route 47-47(Бер)...
+https://city.dozor.tech/data?t=2&p=1740
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 47-47(Бер)
+
+Retrieving data for route 2...
+https://city.dozor.tech/data?t=2&p=893
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 2
+
+Retrieving data for route 3...
+https://city.dozor.tech/data?t=2&p=1531
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 3
+
+Retrieving data for route 4...
+https://city.dozor.tech/data?t=2&p=896
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 4
+
+Retrieving data for route 5...
+https://city.dozor.tech/data?t=2&p=1854
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 5
+
+Retrieving data for route 6...
+https://city.dozor.tech/data?t=2&p=897
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 6
+
+Retrieving data for route 7...
+https://city.dozor.tech/data?t=2&p=898
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 7
+
+Retrieving data for route 10...
+https://city.dozor.tech/data?t=2&p=903
+response status code: 200
+response text: ''
+Couldn't retrieve data for route 10
+
+Retrieving data for route С1...
+https://city.dozor.tech/data?t=2&p=1310
+response status code: 200
+response text: ''
+Couldn't retrieve data for route С1
+
+Retrieving data for route С2...
+https://city.dozor.tech/data?t=2&p=1309
+(MaxRetryError("HTTPSConnectionPool(host='city.dozor.tech', port=443): Max retries exceeded with url: /data?t=2&p=1309 (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x0000017BD0FAD608>: Failed to establish a new connection: [WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond'))"),)
+Couldn't retrieve data for route С2
+
+Retrieving data for route С3...
+https://city.dozor.tech/data?t=2&p=1314
+response status code: 200
+response text: ''
+Couldn't retrieve data for route С3
+
+Retrieving data for route С4...
+https://city.dozor.tech/data?t=2&p=1315
+response status code: 200
+response text: ''
+Couldn't retrieve data for route С4
+
+Retrieving data for route С5...
+https://city.dozor.tech/data?t=2&p=1312
+response status code: 200
+response text: ''
+Couldn't retrieve data for route С5
+
+Retrieving data for route С6...
+https://city.dozor.tech/data?t=2&p=1311
+response status code: 200
+response text: ''
+Couldn't retrieve data for route С6
+
+Retrieving data for route С7...
+https://city.dozor.tech/data?t=2&p=1313
+response status code: 200
+response text: ''
+Couldn't retrieve data for route С7
+
+Retrieving data for route С8...
+https://city.dozor.tech/data?t=2&p=864
+response status code: 200
+response text: ''
+Couldn't retrieve data for route С8
+
+Retrieving data for route С9...
+https://city.dozor.tech/data?t=2&p=1537
+response status code: 200
+response text: ''
+Couldn't retrieve data for route С9
+
+Retrieving data for route С10...
+https://city.dozor.tech/data?t=2&p=1538
+response status code: 200
+response text: ''
+Couldn't retrieve data for route С10
+
+Process finished with exit code 0
