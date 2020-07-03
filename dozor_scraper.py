@@ -13,6 +13,7 @@ QUERY_STRINGS:
 """
 
 import json
+import os
 import requests
 
 BASE_URL = "https://city.dozor.tech/"  # protocol + hostname
@@ -55,7 +56,7 @@ BUSES_QUERY_STRINGS = {
     # "47/47(Бер)" renamed because / is
     # illegal char for file names
 }
-TROLLEYS_QUERY_STRINGS = {
+TROLLEYBUSES_QUERY_STRINGS = {
     "2": "data?t=2&p=893",
     "3": "data?t=2&p=1531",
     "4": "data?t=2&p=896",
@@ -64,7 +65,6 @@ TROLLEYS_QUERY_STRINGS = {
     "7": "data?t=2&p=898",
     "10": "data?t=2&p=903",
 }
-
 COTTAGE_BUSES_QUERY_STRINGS = {
     "С1": "data?t=2&p=1310",
     "С2": "data?t=2&p=1309",
@@ -77,3 +77,70 @@ COTTAGE_BUSES_QUERY_STRINGS = {
     "С9": "data?t=2&p=1537",
     "С10": "data?t=2&p=1538",
 }
+ALL_ROUTES_QUERY_STRINGS = {
+    **BUSES_QUERY_STRINGS,
+    **TROLLEYBUSES_QUERY_STRINGS,
+    **COTTAGE_BUSES_QUERY_STRINGS,
+}
+ROUTE_NUMBERS = ALL_ROUTES_QUERY_STRINGS.keys()
+
+
+def create_cache_folder(folder_name):
+    cache_dir = os.path.join(os.getcwd(), folder_name)
+    if not os.path.exists(cache_dir):
+        os.mkdir(cache_dir)
+    return cache_dir
+
+
+def already_cached(abs_filename):
+    return os.path.isfile(abs_filename)
+
+
+def get_route_data_from_file(abs_filename):
+    file_handle = open(file=abs_filename, mode="rt", encoding="utf-8")
+    route_json = json.load(file_handle)
+    return route_json
+
+
+def get_route_data_from_dozor_website(route):
+    final_url = BASE_URL + ALL_ROUTES_QUERY_STRINGS[route]
+    print(final_url)
+    try:
+        response = requests.get(final_url, timeout=60)
+    except requests.exceptions.RequestException as e:
+        print(e.args)
+        return None
+    else:
+        print(f"response status code: {response.status_code}")
+        print(f"response text: '{response.text}'")
+        if response.status_code == "200 OK" and response.text:
+            route_json = json.loads(response.text)
+            return route_json
+        return None
+
+
+def make_json_cache(route_json, abs_filename):
+    file_handle = open(file=abs_filename, mode="wt", encoding="utf-8")
+    json.dump(route_json, file_handle, indent=4)
+
+
+def main():
+    cache_dir = create_cache_folder("cache")
+    for route_number in ALL_ROUTES_QUERY_STRINGS.keys():
+        abs_filename = os.path.join(cache_dir, f"{route_number}.json")
+        if already_cached(abs_filename):
+            print(f"\nData for route {route_number} has already been saved.")
+            route_json = get_route_data_from_dozor_website(route_number)
+        else:
+            print(f"\nRetrieving data for route {route_number}...")
+            route_json = get_route_data_from_dozor_website(route_number)
+            if route_json is None:
+                print(f"Couldn't retrieve data for route {route_number}")
+                continue
+            else:
+                print(f"Data for route {route_number} successfully retrieved")
+                make_json_cache(route_json, abs_filename)
+
+
+if __name__ == "__main__":
+    main()
