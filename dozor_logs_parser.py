@@ -228,10 +228,10 @@ def dump_flat_file(data_for_each_vehicle):
         file_handle.write(headers_uk)
         for gNb, vehicle_data in data_for_each_vehicle.items():
             file_handle.write(
-                f"{vehicle_data['route_number']:<}"
+                f"{vehicle_data['route_number']}"
                 f"\t{gNb}"
-                f"\t{vehicle_data['avg_spd']:<.5}"
-                f"\t{vehicle_data['avg_spd_recalc']:<.5}\n"
+                f"\t{vehicle_data['avg_spd']}"
+                f"\t{vehicle_data['avg_spd_recalc']}\n".replace(".", ",")
             )
 
 
