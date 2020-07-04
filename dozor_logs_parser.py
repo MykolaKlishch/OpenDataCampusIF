@@ -218,10 +218,14 @@ def dump_flat_file(data_for_each_vehicle):
     """
     with open("data_for_each_vehicle.txt",
               mode="wt", encoding="utf-8") as file_handle:
-        headers = ("№ маршруту\tРеєстраційний номер\t"
-                   "Середня швидкість (вимір. dozor)\t"
-                   "Середня швидкість (перерахована)\n")
-        file_handle.write(headers)
+        headers_en = ("RouteNumber\tStateNumber\t"
+                      "AvgSpeedDozor\t"
+                      "AvgSpeedRecalculated\n")
+        headers_uk = ("Номер маршруту\tДержавний номер\t"
+                      "Середня швидкість (вимір. dozor)\t"
+                      "Середня швидкість (перерахована)\n")
+        file_handle.write(headers_en)
+        file_handle.write(headers_uk)
         for gNb, vehicle_data in data_for_each_vehicle.items():
             file_handle.write(
                 f"{vehicle_data['route_number']:<}"
