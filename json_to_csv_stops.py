@@ -11,7 +11,7 @@ def main():
     with open(
             "routes_stops_data.json", mode="rt", encoding="utf-8"
     ) as fh_json, open(
-            file="routes_stops_data.json.csv", mode="wt", encoding="utf-8",
+            file="routes_stops_data.csv", mode="wt", encoding="utf-8",
             newline="") as fh_csv:
         routes_stops_json = json.load(fh_json)
         fieldnames = ["lat_ctr", "lng_ctr", "lat_pt", "lng_pt",
