@@ -71,20 +71,43 @@ def to_be_discarded(entry):
         or "text" not in entry["response"]["content"].keys()
         # non-json data are discarded by the following condition:
         or entry["response"]["content"]["text"][0] not in "{["
-        # bus stops data are discarded by the following condition:
-        or "rId" not in entry["response"]["content"]["text"]
+        # bus stops data are not discarded
     )
 
 
-def get_vehicles_positions_from_log(log_abs_filename):
+def contains_route_data(entry):
+    return "rId" in entry["response"]["content"]["text"]
+
+
+def contains_routes_stops_data(entry):
+    """Entry should be checked by to_be_discarded() first!"""
+    return (
+        '"data":""' not in entry["response"]["content"]["text"]
+        and "rId" not in entry["response"]["content"]["text"]
+    )
+
+
+def deal_with_routes_stops_record(entry):
+    """dump it silently for later use"""
+    with open(file="routes_stops_data.json", mode="wt",
+              encoding="utf-8") as fh_json:
+        routes_stops_json = json.loads(entry["response"]["content"]["text"])
+        json.dump(obj=routes_stops_json, fp=fh_json,
+                  indent=4, ensure_ascii=False)
+
+
+def get_data_from_log(log_abs_filename):
     file_handle = open(log_abs_filename, "rt", encoding='utf-8')
     log_json = json.loads(file_handle.read())
     vehicles_positions = {}
     for entry in log_json["log"]["entries"]:
         if to_be_discarded(entry):
             continue
-        vehicles_positions[entry["startedDateTime"]] = \
-            json.loads(entry["response"]["content"]["text"])
+        if contains_route_data(entry):
+            vehicles_positions[entry["startedDateTime"]] = \
+                json.loads(entry["response"]["content"]["text"])
+        if contains_routes_stops_data(entry):
+            deal_with_routes_stops_record(entry)
     return vehicles_positions
 
 
@@ -245,7 +268,7 @@ def main():
               f"{len(dozor_logs_abs_filenames)}"
               f": {abs_filename}"
               )
-        vehicles_positions = get_vehicles_positions_from_log(abs_filename)
+        vehicles_positions = get_data_from_log(abs_filename)
         validate_vehicles_positions(vehicles_positions)
         data_for_each_vehicle = update_data_for_each_vehicle(
             vehicles_positions, data_for_each_vehicle)
