@@ -1,5 +1,3 @@
-"""Чернетка / Draft"""
-
 import os
 import json
 import datetime
@@ -88,15 +86,6 @@ def get_vehicles_positions_from_log(log_abs_filename):
     return vehicles_positions
 
 
-def print_vehicles_positions(vehicles_positions):
-    for all_routes_record in vehicles_positions.items():
-        print(f"===={all_routes_record[0]}====", )
-        for single_route_record in all_routes_record[1]['data']:
-            print("\t", single_route_record)
-            for single_vehicle_record in single_route_record["dvs"]:
-                print("\t\t", single_vehicle_record)
-
-
 def validate_vehicles_positions(vehicles_positions):
     for all_routes_record in vehicles_positions.values():
         for single_route_record in all_routes_record['data']:
@@ -127,8 +116,8 @@ def update_data_for_each_vehicle(vehicles_positions, data_for_each_vehicle):
         for single_route_record in all_routes_record[1]['data']:
             if "dvs" in single_route_record.keys():
                 for single_vehicle_record in single_route_record["dvs"]:
-                    vehicle_registration_number = single_vehicle_record["gNb"
-                    ].replace(" ", "")
+                    vehicle_registration_number = \
+                        single_vehicle_record["gNb"].replace(" ", "")
                     single_vehicle_record_filtered = {
                         key: value
                         for key, value in single_vehicle_record.items()
@@ -175,22 +164,11 @@ def haversine(lat1, lng1, lat2, lng2):
 
 
 def calculate_average_speed(positions):
-    """calculates average speed based on time and geospatial data"""
-
+    """Calculates average speed based on time and geospatial data"""
     time_list_str = sorted(positions)
     time_list_datetime = list(
         datetime.datetime.fromisoformat(timestamp.replace("Z", ""))
-        for timestamp in time_list_str
-    )
-
-    # print(time_list_datetime)
-    # delta_t_list = list(
-    #     (time_list_datetime[i] - time_list_datetime[i - 1]).total_seconds()
-    #     for i in range(1, len(time_list_datetime) - 1)
-    # )
-    # print("\t", delta_t_list)
-    # print("\t", max(delta_t_list), min(delta_t_list))
-
+        for timestamp in time_list_str)
     total_d = 0  # total distance in km
     for num, timestamp in enumerate(time_list_str):
         lat = positions[time_list_str[num]]["loc"]["lat"]
@@ -198,13 +176,11 @@ def calculate_average_speed(positions):
         if num > 0:
             delta_d = haversine(prev_lat, prev_lng, lat, lng)
             total_d += delta_d
-            print("\t*** ", (prev_lat, prev_lng, lat, lng), delta_d, end="")
         prev_lat = lat
         prev_lng = lng
     seconds_in_hour = 3600
     total_t = (time_list_datetime[-1] - time_list_datetime[0]
                ).total_seconds() / seconds_in_hour
-    print("\t", total_d, total_t, (prev_lat, prev_lng, lat, lng))
     return total_d / total_t
 
 
@@ -234,9 +210,29 @@ def dump_json(data_for_each_vehicle):
                   ensure_ascii=False, separators=(',', ':'))
 
 
+def dump_flat_file(data_for_each_vehicle):
+    """
+    This file contains only selected data
+    The data in dump file are NOT the same as
+    the data data_for_each_vehicle.json
+    """
+    with open("data_for_each_vehicle.txt",
+              mode="wt", encoding="utf-8") as file_handle:
+        headers = ("№ маршруту\tРеєстраційний номер\t"
+                   "Середня швидкість (вимір. dozor)\t"
+                   "Середня швидкість (перерахована)\n")
+        file_handle.write(headers)
+        for gNb, vehicle_data in data_for_each_vehicle.items():
+            file_handle.write(
+                f"{vehicle_data['route_number']:<}"
+                f"\t{gNb}"
+                f"\t{vehicle_data['avg_spd']:<.5}"
+                f"\t{vehicle_data['avg_spd_recalc']:<.5}\n"
+            )
+
+
 def main():
     dozor_logs_abs_filenames = get_filenames_in_folder("dozor_logs")
-    # dozor_logs_abs_filenames = dozor_logs_abs_filenames[0:1]
     data_for_each_vehicle = dict()
     for num, abs_filename in enumerate(dozor_logs_abs_filenames):
         print(f"Parsing log {num + 1} of "
@@ -245,27 +241,20 @@ def main():
               )
         vehicles_positions = get_vehicles_positions_from_log(abs_filename)
         validate_vehicles_positions(vehicles_positions)
-        # print_vehicles_positions(vehicles_positions)
         data_for_each_vehicle = update_data_for_each_vehicle(
             vehicles_positions, data_for_each_vehicle)
-
     data_for_each_vehicle_w_speed = {}
     for gNb, vehicle_data in data_for_each_vehicle.items():
-        vehicle_data["avg_speed_recalculated"] = calculate_average_speed(
-            vehicle_data["positions"])
         vehicle_data["avg_spd"] = aggregate_speed_from_dozor(
+            vehicle_data["positions"])
+        vehicle_data["avg_spd_recalc"] = calculate_average_speed(
             vehicle_data["positions"])
         data_for_each_vehicle_w_speed.update({
             gNb: vehicle_data
         })
     data_for_each_vehicle = data_for_each_vehicle_w_speed
-
-    print(*sorted(
-        f"{vehicle_data['route_number']:<}"
-        f"\t{gNb}\t{vehicle_data['avg_speed_recalculated']:<5}"
-        f"\t{vehicle_data['avg_spd']:<}"
-        for gNb, vehicle_data in data_for_each_vehicle.items()
-    ), sep="\n")
+    dump_json(data_for_each_vehicle)
+    dump_flat_file(data_for_each_vehicle)
 
 
 if __name__ == "__main__":
