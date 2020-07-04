@@ -1,3 +1,5 @@
+"""Attention! Timestamps are in UTC!"""
+
 import os
 import json
 import datetime
