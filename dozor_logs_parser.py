@@ -2,6 +2,8 @@
 
 import os
 import json
+import datetime
+from math import radians, cos, sin, asin, sqrt
 
 
 ROUTE_NUMBERS = {
@@ -154,6 +156,77 @@ def update_data_for_each_vehicle(vehicles_positions, data_for_each_vehicle):
     return data_for_each_vehicle
 
 
+def haversine(lat1, lng1, lat2, lng2):
+    """
+    Calculate the great circle distance between two points
+    on the earth (specified in decimal degrees)
+    source: https://gist.github.com/DeanThompson/d5d745eca4e9023c6501
+    """
+    # convert decimal degrees to radians
+    lat1, lng1, lat2, lng2 = map(radians, [lat1, lng1, lat2, lng2])
+
+    # haversine formula
+    d_lat = lat2 - lat1
+    d_lng = lng2 - lng1
+    a = sin(d_lat/2)**2 + cos(lat1) * cos(lat2) * sin(d_lng/2)**2
+    c = 2 * asin(sqrt(a))
+    r = 6371  # Radius of earth in kilometers. Use 3956 for miles
+    return c * r
+
+
+def calculate_average_speed(positions):
+    """calculates average speed based on time and geospatial data"""
+
+    time_list_str = sorted(positions)
+    time_list_datetime = list(
+        datetime.datetime.fromisoformat(timestamp.replace("Z", ""))
+        for timestamp in time_list_str
+    )
+
+    # print(time_list_datetime)
+    # delta_t_list = list(
+    #     (time_list_datetime[i] - time_list_datetime[i - 1]).total_seconds()
+    #     for i in range(1, len(time_list_datetime) - 1)
+    # )
+    # print("\t", delta_t_list)
+    # print("\t", max(delta_t_list), min(delta_t_list))
+
+    total_d = 0  # total distance in km
+    for num, timestamp in enumerate(time_list_str):
+        lat = positions[time_list_str[num]]["loc"]["lat"]
+        lng = positions[time_list_str[num]]["loc"]["lng"]
+        if num > 0:
+            delta_d = haversine(prev_lat, prev_lng, lat, lng)
+            total_d += delta_d
+            print("\t*** ", (prev_lat, prev_lng, lat, lng), delta_d, end="")
+        prev_lat = lat
+        prev_lng = lng
+    seconds_in_hour = 3600
+    total_t = (time_list_datetime[-1] - time_list_datetime[0]
+               ).total_seconds() / seconds_in_hour
+    print("\t", total_d, total_t, (prev_lat, prev_lng, lat, lng))
+    return total_d / total_t
+
+
+def aggregate_speed_from_dozor(positions):
+    """
+    Disclaimer: in general, average speed is NOT just an arithmetic average
+    of all speed values. Average speed is total_distance/total_time
+    (this calculation is implemented in calculate_average_speed(positions))
+    However, in this case speed measurements were
+    taken at roughly the same intervals (approx. 10 seconds). Therefore
+    we can assume that this is a degenerate case and the average speed
+    can be approximated as an average of all these speed measurements
+    The purpose of this function is to provide alternative speed
+    calculation for comparison.
+    """
+    speed_measurements = [
+        position_record["spd"]
+        for position_record in positions.values()
+    ]
+    return sum(speed_measurements) / len(speed_measurements)
+
+
 def dump_json(data_for_each_vehicle):
     with open("data_for_each_vehicle.json", "wt",
               encoding="utf-8") as file_handle:
@@ -163,6 +236,7 @@ def dump_json(data_for_each_vehicle):
 
 def main():
     dozor_logs_abs_filenames = get_filenames_in_folder("dozor_logs")
+    # dozor_logs_abs_filenames = dozor_logs_abs_filenames[0:1]
     data_for_each_vehicle = dict()
     for num, abs_filename in enumerate(dozor_logs_abs_filenames):
         print(f"Parsing log {num + 1} of "
@@ -175,17 +249,22 @@ def main():
         data_for_each_vehicle = update_data_for_each_vehicle(
             vehicles_positions, data_for_each_vehicle)
 
-    # data_for_each_vehicle_w_speed = {}
-    # for vehicle_data in data_for_each_vehicle.:
-    #     vehicle_data["avg_speed"] = caclulate_average_speed(
-    #         vehicle_data["positions"])
-    #     data_for_each_vehicle_w_speed.append({
-    #
-    #     })
+    data_for_each_vehicle_w_speed = {}
+    for gNb, vehicle_data in data_for_each_vehicle.items():
+        vehicle_data["avg_speed_recalculated"] = calculate_average_speed(
+            vehicle_data["positions"])
+        vehicle_data["avg_spd"] = aggregate_speed_from_dozor(
+            vehicle_data["positions"])
+        data_for_each_vehicle_w_speed.update({
+            gNb: vehicle_data
+        })
+    data_for_each_vehicle = data_for_each_vehicle_w_speed
 
     print(*sorted(
-        f"{vehicle_data[1]['route_number']}\t{vehicle_data[0]}"
-        for vehicle_data in data_for_each_vehicle.items()
+        f"{vehicle_data['route_number']:<}"
+        f"\t{gNb}\t{vehicle_data['avg_speed_recalculated']:<5}"
+        f"\t{vehicle_data['avg_spd']:<}"
+        for gNb, vehicle_data in data_for_each_vehicle.items()
     ), sep="\n")
 
 
