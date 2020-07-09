@@ -1,6 +1,6 @@
 # OpenDataCampusIF
 
-Mini-project on transport infrastructure.
+Mini-project on public transport infrastructure.
 Created during Open Data Campus Ivano-Frankivsk on 2-5 July, 2020 (http://campus.texty.org.ua/).
 
 The project was aimed to collect, analyze and visualize data about public transport in Ivano-Frankivsk city.
